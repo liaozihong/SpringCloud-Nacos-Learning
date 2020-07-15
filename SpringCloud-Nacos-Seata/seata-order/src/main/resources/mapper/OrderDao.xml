@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoey.learning.seataorder.dao.TOrderDao">
+
+    <resultMap type="com.zoey.learning.seataorder.entity.TOrder" id="TOrderMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="productId" column="product_id" jdbcType="INTEGER"/>
+        <result property="count" column="count" jdbcType="INTEGER"/>
+        <result property="money" column="money" jdbcType="NUMERIC"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectById" resultMap="TOrderMap">
+        select
+          id, user_id, product_id, count, money, status
+        from  t_order
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="selectAllByLimit" resultMap="TOrderMap">
+        select
+          id, user_id, product_id, count, money, status
+        from  t_order
+        limit #{startIndex}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="selectAll" resultMap="TOrderMap">
+        select
+        id, user_id, product_id, count, money, status
+        from t_order
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="productId != null">
+                and product_id = #{productId}
+            </if>
+            <if test="count != null">
+                and count = #{count}
+            </if>
+            <if test="money != null">
+                and money = #{money}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectByMapParam" resultMap="TOrderMap">
+        select
+        id, user_id, product_id, count, money, status
+        from t_order
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="productId != null">
+                and product_id = #{productId}
+            </if>
+            <if test="count != null">
+                and count = #{count}
+            </if>
+            <if test="money != null">
+                and money = #{money}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        <if test="startIndex!=null and  limit!=null ">
+            limit #{startIndex},#{limit}
+        </if>
+        <if test="startIndex==null and  limit!=null ">
+            limit #{limit}
+        </if>
+    </select>
+
+
+    <select id="selectCountByMapParam" resultType="int">
+        select count(0)
+        from t_order
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="productId != null">
+                and product_id = #{productId}
+            </if>
+            <if test="count != null">
+                and count = #{count}
+            </if>
+            <if test="money != null">
+                and money = #{money}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        <if test="startIndex!=null and  limit!=null ">
+            limit #{startIndex},#{limit}
+        </if>
+        <if test="startIndex==null and  limit!=null ">
+            limit #{limit}
+        </if>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into t_order(user_id, product_id, count, money, status)
+        values (#{userId}, #{productId}, #{count}, #{money}, #{status})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t_order
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="productId != null">
+                product_id = #{productId},
+            </if>
+            <if test="count != null">
+                count = #{count},
+            </if>
+            <if test="money != null">
+                money = #{money},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from t_order where id = #{id}
+    </delete>
+
+</mapper>
